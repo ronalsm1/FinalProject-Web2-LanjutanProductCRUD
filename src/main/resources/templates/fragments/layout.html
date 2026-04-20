@@ -28,12 +28,21 @@
                 </li>
             </ul>
             <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">
-                <span class="text-light me-3">
-                    Halo, <strong th:text="${#authentication.name}">User</strong>
-                </span>
-                <form th:action="@{/logout}" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-                </form>
+                <!-- Ronald Saut M. update navigation bar nya -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Halo, <strong th:text="${#authentication.name}">User</strong>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" th:href="@{/profile}">View Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="px-3 py-1">
+                                <button type="submit" class="btn btn-danger btn-sm w-100">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -19,6 +19,17 @@
                         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
                         <form th:action="@{/register}" th:object="${registerRequest}" method="post">
+                            <!-- Ronald Saut M. tambah fullName dan email -->
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="fullName"
+                                       th:field="*{fullName}" placeholder="Masukkan nama lengkap" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email (Opsional)</label>
+                                <input type="text" class="form-control" id="email"
+                                       th:field="*{email}" placeholder="Masukkan email">
+                            </div>
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username"

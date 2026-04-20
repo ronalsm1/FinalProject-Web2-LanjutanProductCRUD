@@ -64,6 +64,9 @@ public class AuthController {
         User user = new User();
         user.setUsername(registerRequest.getUsername().trim());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        //Ronald Saut M. tambah simpan data yang lain
+        user.setFullName(registerRequest.getFullName());
+        user.setEmail(registerRequest.getEmail());
         userRepository.save(user);
 
         redirectAttributes.addFlashAttribute("success", "Registrasi berhasil! Silakan login.");
