@@ -4,6 +4,7 @@ import com.example.productcrud.model.Category;
 import com.example.productcrud.model.Product;
 import com.example.productcrud.model.User;
 import com.example.productcrud.repository.UserRepository;
+import com.example.productcrud.service.CategoryService;
 import com.example.productcrud.service.ProductService;
 import java.time.LocalDate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +19,14 @@ public class ProductController {
 
     private final ProductService productService;
     private final UserRepository userRepository;
+    // deklarasi categoryservice sebagai variabel -> josef
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, UserRepository userRepository) {
+    public ProductController(ProductService productService,UserRepository userRepository, CategoryService categoryService) {
         this.productService = productService;
         this.userRepository = userRepository;
+        // memasukkan categoryService ke constructor -> josef
+        this.categoryService = categoryService;
     }
 
     private User getCurrentUser(UserDetails userDetails) {
@@ -59,11 +64,13 @@ public class ProductController {
     }
 
     @GetMapping("/products/new")
-    public String showCreateForm(Model model) {
+    public String showCreateForm(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User currentUser = getCurrentUser(userDetails);
         Product product = new Product();
         product.setCreatedAt(LocalDate.now());
         model.addAttribute("product", product);
-        model.addAttribute("categories", Category.values());
+        // josef ->  mengganti Category.values() ke categoryService.findAllByUser(currentUser)
+        model.addAttribute("categories", categoryService.findAllByUser(currentUser));
         return "product/form";
     }
 
@@ -96,7 +103,8 @@ public class ProductController {
         return productService.findByIdAndOwner(id, currentUser)
                 .map(product -> {
                     model.addAttribute("product", product);
-                    model.addAttribute("categories", Category.values());
+                    // josef ->  mengganti Category.values() ke categoryService.findAllByUser(currentUser)
+                    model.addAttribute("categories", categoryService.findAllByUser(currentUser));
                     return "product/form";
                 })
                 .orElseGet(() -> {
