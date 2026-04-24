@@ -34,7 +34,7 @@
                 <td th:text="${cat.name}">Nama Kategori</td>
                 <td th:text="${cat.description}">Deskripsi</td>
                 <td>
-                    <a th:href="@{/categories/{id}/edit(id=${cat.id})}" class="btn btn-warning btn-sm">Edit</a>
+                    <a th:href="@{/categories/edit/{id}(id=${cat.id})}" class="btn btn-warning btn-sm">Edit</a>
                     <form th:action="@{/categories/{id}/delete(id=${cat.id})}" method="post" style="display:inline;"
                           onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
                         <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
