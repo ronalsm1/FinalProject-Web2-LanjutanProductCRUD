@@ -4,12 +4,17 @@ import com.example.productcrud.model.Category;
 import com.example.productcrud.model.User;
 import com.example.productcrud.repository.UserRepository;
 import com.example.productcrud.service.CategoryService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+// Import pageable ~Brandon David
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 // membuat categoryController -> josef
 @Controller
@@ -27,10 +32,27 @@ public class CategoryController {
         return userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User tidak ditemukan"));
     }
 
+    // Menambahkan method-method yang diperlukan untuk pagination dan search & filter ~Brandon David
     @GetMapping
-    public String listCategories(@AuthenticationPrincipal UserDetails userDetails, Model model){
+    public String listCategories(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model){
         User currentUser = getCurrentUser(userDetails);
-        model.addAttribute("categories", categoryService.findAllByUser(currentUser));
+
+        Pageable pageable = PageRequest.of(page, size); // Ini logika LIMIT OFFSET (Contoh: LIMIT 5 OFFSET 5) ~Brandon David
+        Page<Category> categoryPage = categoryService.findCategories(currentUser, keyword, pageable);
+
+        // Bind ke attributes ~Brandon David
+        model.addAttribute("categories", categoryPage.getContent());
+        model.addAttribute("categoryPage", categoryPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", categoryPage.getTotalPages());
+        model.addAttribute("totalItems", categoryPage.getTotalElements());
+        model.addAttribute("keyword", keyword);
+
         return "category/list";
     }
 

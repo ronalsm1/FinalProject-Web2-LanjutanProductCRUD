@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+// Import pageable ~Brandon David
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 // josef -> create categoryService
 @Service
 public class CategoryService {
@@ -23,6 +28,13 @@ public class CategoryService {
 
     public Optional<Category> findByIdAndUser(Long id, User user){
         return categoryRepository.findByIdAndUser(id, user);
+    }
+
+    // Menggunakan Page dan menambahkan method findCategories() ~Brandon David
+    public Page<Category> findCategories(User user, String keyword, Pageable pageable) {
+        if (keyword == null) keyword = "";
+
+        return categoryRepository.findByUserAndNameContainingIgnoreCase(user, keyword, pageable);
     }
 
     public Category save(Category category){
