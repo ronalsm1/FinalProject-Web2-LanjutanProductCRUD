@@ -14,11 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// Import pageable ~Brandon David
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 @Controller
 public class ProductController {
 
@@ -44,32 +39,10 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    // Menambahkan method-method yang diperlukan untuk pagination dan search & filter ~Brandon David
     @GetMapping("/products")
-    public String listProducts(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(defaultValue = "") String keyword,
-            @RequestParam(required = false) Long categoryId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            Model model) {
+    public String listProducts(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User currentUser = getCurrentUser(userDetails);
-
-        Pageable pageable = PageRequest.of(page, size); // Ini logika LIMIT OFFSET (Contoh: LIMIT 5 OFFSET 5) ~Brandon David
-        Page<Product> productPage = productService.findProducts(currentUser, keyword, categoryId, pageable);
-
-        // Bind ke attributes ~Brandon David
-        model.addAttribute("productPage", productPage);
-        model.addAttribute("products", productPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", productPage.getTotalPages());
-        model.addAttribute("totalItems", productPage.getTotalElements());
-
-        // Values untuk filter ~Brandon David
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categories", categoryService.findAllByUser(currentUser));
-
+        model.addAttribute("products", productService.findAllByOwner(currentUser));
         return "product/list";
     }
 

@@ -9,20 +9,6 @@
         <a th:href="@{/categories/new}" class="btn btn-success">+ Tambah Kategori</a>
     </div>
 
-    <!-- Search ~Brandon David -->
-    <form method="get" th:action="@{/categories}" class="row mb-3">
-        <div class="col-md-4">
-            <input type="text" name="keyword"
-                   th:value="${keyword}"
-                   class="form-control"
-                   placeholder="Cari kategori...">
-        </div>
-
-        <div class="col-md-2">
-            <button class="btn btn-primary">Search</button>
-        </div>
-    </form>
-
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
         <span th:text="${successMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -61,51 +47,8 @@
 
     <div th:if="${#lists.isEmpty(categories)}" class="text-center py-5">
         <p class="text-muted fs-5">Belum ada kategori.</p>
-        <a th:href="@{/categories/new}" class="btn btn-primary">Tambah Kategori</a>
+        <a th:href="@{/categories/new}" class="btn btn-primary">Tambah Kategori Pertama</a>
     </div>
-
-    <!-- Pagination ~Brandon David -->
-    <nav th:if="${!#lists.isEmpty(categories)}">
-        <ul class="pagination justify-content-center">
-            <!-- Previous Item -->
-            <li class="page-item"
-                th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link"
-                   th:if="${currentPage > 0}"
-                   th:href="@{/categories(page=${currentPage - 1}, keyword=${keyword})}">
-                    Previous
-                </a>
-
-                <span class="page-link" th:if="${currentPage == 0}">
-                        Previous
-                    </span>
-            </li>
-
-            <!-- Page Numbers -->
-            <li class="page-item"
-                th:each="i : ${totalPages > 0 ? #numbers.sequence(0, totalPages - 1) : {0}}"
-                th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/categories(page=${i}, keyword=${keyword})}"
-                   th:text="${i + 1}">
-                </a>
-            </li>
-
-            <!-- Next -->
-            <li class="page-item"
-                th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
-                <a class="page-link"
-                   th:if="${currentPage < totalPages - 1}"
-                   th:href="@{/categories(page=${currentPage + 1}, keyword=${keyword})}">
-                    Next
-                </a>
-
-                <span class="page-link" th:if="${currentPage >= totalPages - 1}">
-                        Next
-                    </span>
-            </li>
-        </ul>
-    </nav>
 </div>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
