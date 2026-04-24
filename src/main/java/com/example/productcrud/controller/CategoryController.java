@@ -45,20 +45,20 @@ public class CategoryController {
         User currentUser = getCurrentUser(userDetails);
 
         if (!categoryService.isNameUniqueForUser(category.getName(), currentUser, category.getId())){
-            redirectAttributes.addFlashAttribute("errror Message", "Nama kategori sudah ada!");
+            redirectAttributes.addFlashAttribute("errrorMessage", "Nama kategori sudah ada!");
             return "redirect:/categories";
         }
 
         if (category.getId() != null){
             boolean isOwner = categoryService.findByIdAndUser(category.getId(), currentUser).isPresent();
             if (!isOwner){
-                redirectAttributes.addFlashAttribute("error Message", "Kategori tidak ditemukan.");
+                redirectAttributes.addFlashAttribute("errorMessage", "Kategori tidak ditemukan.");
             }
         }
 
         category.setUser(currentUser);
         categoryService.save(category);
-        redirectAttributes.addFlashAttribute("successMessage", "Kategori berhasil disimpan!");
+        redirectAttributes.addFlashAttribute("successMessage", "Kategori berhasil ditambahkan dan disimpan!");
         return "redirect:/categories";
     }
 
@@ -76,11 +76,18 @@ public class CategoryController {
     @PostMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes){
         User currentUser = getCurrentUser(userDetails);
-        try{
-            categoryService.deleteByIdAndUser(id, currentUser);
-            redirectAttributes.addFlashAttribute("successMessage", "Kategori Berhasil dihapus!");
-        }catch (Exception e){
-            redirectAttributes.addFlashAttribute("error Message", "Gagal menghapus kategori");
+        boolean isOwner = categoryService.findByIdAndUser(id, currentUser).isPresent();
+
+        if (isOwner) {
+            try {
+                categoryService.deleteByIdAndUser(id, currentUser);
+                redirectAttributes.addFlashAttribute("successMessage", "Kategori berhasil dihapus!");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                        "Kategori tidak bisa dihapus karena masih digunakan oleh produk.");
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Kategori tidak ditemukan.");
         }
 
         return "redirect:/categories";
