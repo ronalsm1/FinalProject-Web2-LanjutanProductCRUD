@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: header}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
 </head>
-<body>
-    <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8 text-center">
-                <h1 class="display-4 mb-4">Selamat Datang di Product CRUD</h1>
-                <p class="lead mb-4">
-                    Aplikasi manajemen produk sederhana untuk praktikum JPA Fundamentals.
-                    Saat ini data disimpan di dalam memori (ArrayList). Pada praktikum berikutnya,
-                    Anda akan menambahkan JPA untuk menyimpan data ke database.
-                </p>
-                <a th:href="@{/products}" class="btn btn-primary btn-lg">
-                    Lihat Daftar Produk
-                </a>
+<!--Mengganti index.html Dari Menggunakan Bootstrap Menjadi Tailwind Css -Billy-->
+<body class="bg-slate-50 min-h-screen">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-center mt-20">
+        <div class="w-full max-w-2xl text-center">
+
+            <!-- Icon -->
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl shadow-lg mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+                </svg>
             </div>
+
+            <!-- Heading -->
+            <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight mb-4 leading-tight">
+                Selamat Datang di<br>
+                <span class="text-blue-600">Product CRUD</span>
+            </h1>
+
+            <!-- Description -->
+            <p class="text-base text-slate-500 leading-relaxed mb-8 max-w-lg mx-auto">
+                Aplikasi manajemen produk sederhana untuk praktikum JPA Fundamentals.
+                Saat ini data disimpan di dalam memori (ArrayList). Pada praktikum berikutnya,
+                Anda akan menambahkan JPA untuk menyimpan data ke database.
+            </p>
+
+            <!-- CTA Button -->
+            <a th:href="@{/products}"
+               class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-7 py-3 rounded-xl shadow-md transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10"/>
+                </svg>
+                Lihat Daftar Produk
+            </a>
+
+            <!-- Decorative divider -->
+            <div class="flex items-center gap-4 mt-12 mb-8">
+                <div class="flex-1 border-t border-slate-200"></div>
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Fitur Aplikasi</span>
+                <div class="flex-1 border-t border-slate-200"></div>
+            </div>
+
+            <!-- Feature Pills -->
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Manajemen Produk
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Kategori Produk
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Dashboard Statistik
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-3.5 py-2 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Manajemen Profil
+                </span>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <footer th:replace="~{fragments/layout :: footer}"></footer>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

@@ -41,7 +41,7 @@ public class ProductController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/products";
+        return "redirect:/dashboard";
     }
 
     // Menambahkan method-method yang diperlukan untuk pagination dan search & filter ~Brandon David
