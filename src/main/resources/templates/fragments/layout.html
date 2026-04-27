@@ -25,66 +25,121 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
 
-            <!-- Brand + Nav Links -Billy -->
-            <div class="flex items-center gap-6">
-                <a th:href="@{/}" class="text-white font-extrabold text-base tracking-tight flex items-center gap-2">
-                    Product CRUD
-                </a>
-                <ul class="hidden md:flex items-center gap-1">
-                    <li>
-                        <a th:href="@{/}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Home</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/products}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Products</a>
-                    </li>
-                    <!-- menambahkan nav categories -> josef -->
-                    <li>
-                        <a th:href="@{/categories}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Categories</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/dashboard}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Dashboard</a>
-                    </li>
-                </ul>
-            </div>
+            <!-- Brand + Hamburger (mobile) di kiri -->
+            <div class="flex items-center gap-2">
 
-            <!-- Profile Dropdown -->
-            <!-- Ronald Saut M. update navigation bar nya -->
-            <div sec:authorize="isAuthenticated()" class="relative" x-data="{ open: false }">
-                <button onclick="this.nextElementSibling.classList.toggle('hidden')"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white border border-slate-700 hover:border-slate-500 px-3 py-1.5 rounded-lg transition-colors duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                <!-- Hamburger Button (mobile only) -->
+                <button id="mobile-menu-btn"
+                        onclick="toggleMobileMenu()"
+                        class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors duration-150"
+                        aria-label="Toggle menu">
+                    <svg id="icon-hamburger" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
-                    Halo, <strong th:text="${#authentication.name}" class="text-white">User</strong>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
 
-                <!-- Dropdown Menu -Billy -->
-                <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
-                    <a th:href="@{/profile}"
-                       class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors duration-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        View Profile
-                    </a>
-                    <div class="border-t border-slate-100 my-1"></div>
-                    <form th:action="@{/logout}" method="post" class="px-3 pb-1">
-                        <button type="submit"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors duration-150">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            Logout
-                        </button>
-                    </form>
-                </div>
+                <a th:href="@{/}" class="text-white font-extrabold text-base tracking-tight flex items-center gap-2">
+                    Product CRUD
+                </a>
             </div>
 
+            <!-- Desktop Nav Links -Billy -->
+            <ul class="hidden md:flex items-center gap-1">
+                <li>
+                    <a th:href="@{/}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Home</a>
+                </li>
+                <li>
+                    <a th:href="@{/products}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Products</a>
+                </li>
+                <!-- menambahkan nav categories -> josef -->
+                <li>
+                    <a th:href="@{/categories}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Categories</a>
+                </li>
+                <li>
+                    <a th:href="@{/dashboard}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150">Dashboard</a>
+                </li>
+            </ul>
+
+            <!-- Kanan: Profile Dropdown -->
+            <div class="flex items-center gap-2">
+
+                <!-- Profile Dropdown -->
+                <!-- Ronald Saut M. update navigation bar nya -->
+                <div sec:authorize="isAuthenticated()" class="relative">
+                    <button onclick="this.nextElementSibling.classList.toggle('hidden')"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white border border-slate-700 hover:border-slate-500 px-3 py-1.5 rounded-lg transition-colors duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Halo, <strong th:text="${#authentication.name}" class="text-white">User</strong>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Menu -Billy -->
+                    <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
+                        <a th:href="@{/profile}"
+                           class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors duration-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            View Profile
+                        </a>
+                        <div class="border-t border-slate-100 my-1"></div>
+                        <form th:action="@{/logout}" method="post" class="px-3 pb-1">
+                            <button type="submit"
+                                    class="w-full inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
+            <a th:href="@{/}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-150">Home</a>
+            <a th:href="@{/products}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-150">Products</a>
+            <a th:href="@{/categories}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-150">Categories</a>
+            <a th:href="@{/dashboard}" class="text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-150">Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const iconHamburger = document.getElementById('icon-hamburger');
+            const iconClose = document.getElementById('icon-close');
+
+            menu.classList.toggle('hidden');
+            iconHamburger.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        }
+
+        // Tutup mobile menu jika layar diperbesar ke desktop
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 768) {
+                const menu = document.getElementById('mobile-menu');
+                const iconHamburger = document.getElementById('icon-hamburger');
+                const iconClose = document.getElementById('icon-close');
+
+                menu.classList.add('hidden');
+                iconHamburger.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        });
+    </script>
 </nav>
 
 <!-- Footer Fragment -->
