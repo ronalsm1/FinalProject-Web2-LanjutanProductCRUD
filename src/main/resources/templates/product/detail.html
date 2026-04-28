@@ -21,8 +21,8 @@
                 class="text-2xl font-bold text-slate-800 tracking-tight mb-6">Nama Produk</h2>
 
             <!-- Detail Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <table class="w-full text-sm">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden overflow-x-auto">
+                <table class="w-full min-w-[360px] text-sm">
                     <tbody class="divide-y divide-slate-100">
 
                     <tr class="hover:bg-slate-50 transition-colors duration-100">
@@ -82,7 +82,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-3 mt-5">
+            <div class="flex flex-wrap items-center gap-3 mt-5">
                 <a th:href="@{/products/{id}/edit(id=${product.id})}"
                    class="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-amber-900 text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

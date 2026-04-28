@@ -22,7 +22,7 @@
 
             <!-- Form Card -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <form th:action="@{/products/save}" th:object="${product}" method="post" class="p-6 space-y-5">
+                <form th:action="@{/products/save}" th:object="${product}" method="post" class="p-4 sm:p-6 space-y-5">
 
                     <!-- Hidden ID -->
                     <input type="hidden" th:field="*{id}">
@@ -93,7 +93,7 @@
                     <div class="border-t border-slate-100 pt-2"></div>
 
                     <!-- Buttons -->
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-3">
                         <button type="submit"
                                 class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
