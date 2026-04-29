@@ -109,7 +109,7 @@
             <tr th:each="product, iterStat : ${products}"
                 class="border-t border-slate-100 hover:bg-slate-50 transition-colors duration-100"
                 th:classappend="${iterStat.odd} ? 'bg-slate-50/50'">
-                <td th:text="${iterStat.index + 1}" class="px-4 py-3.5 text-slate-500 font-medium">1</td>
+                <td th:text="${productPage.number * productPage.size + iterStat.index + 1}" class="px-4 py-3.5 text-slate-500 font-medium">1</td>
                 <td th:text="${product.name}" class="px-4 py-3.5 text-slate-800 font-semibold">Nama Produk</td>
                 <td th:text="${product.category?.name}" class="px-4 py-3.5 text-slate-600">Kategori</td>
                 <td th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}"

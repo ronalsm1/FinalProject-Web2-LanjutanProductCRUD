@@ -64,6 +64,7 @@ public class ProductController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("totalItems", productPage.getTotalElements());
+        model.addAttribute("size", size);
 
         // Values untuk filter ~Brandon David
         model.addAttribute("keyword", keyword);

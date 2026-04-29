@@ -51,6 +51,7 @@ public class CategoryController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", categoryPage.getTotalPages());
         model.addAttribute("totalItems", categoryPage.getTotalElements());
+        model.addAttribute("size", size);
         model.addAttribute("keyword", keyword);
 
         return "category/list";
