@@ -3,7 +3,10 @@ package com.example.productcrud.controller;
 import com.example.productcrud.dto.ChangePasswordRequest;
 import com.example.productcrud.model.User;
 import com.example.productcrud.repository.UserRepository;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -50,6 +53,9 @@ public class ProfileController {
     public String updateProfile(@ModelAttribute User updatedUser, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes) {
         User user = getCurrentUser(userDetails);
 
+        // Mengecek apakah username benar-benar diganti
+        boolean isUsernameChanged = !user.getUsername().equals(updatedUser.getUsername());
+
         // Validasi kalo username diubah, pastikan engga dipakai user lain
         if (!user.getUsername().equals(updatedUser.getUsername())) {
             if (userRepository.findByUsername(updatedUser.getUsername()).isPresent()) {
@@ -67,6 +73,26 @@ public class ProfileController {
         user.setProfileImageUrl(updatedUser.getProfileImageUrl());
 
         userRepository.save(user);
+
+        // Jika username berubah, kita harus update session Spring Security
+        // supaya tidak terjadi error "User tidak ditemukan" saat redirect
+        if (isUsernameChanged) {
+            Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+
+            UserDetails newUserDetails = org.springframework.security.core.userdetails.User.builder()
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .roles("USER")
+                    .build();
+
+            Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                    newUserDetails,
+                    currentAuth.getCredentials(),
+                    newUserDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+        }
+
         redirectAttributes.addFlashAttribute("successMessage", "Profil berhasil diperbarui :)");
         return "redirect:/profile";
     }
