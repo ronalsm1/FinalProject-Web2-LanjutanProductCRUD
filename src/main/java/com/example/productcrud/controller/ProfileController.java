@@ -50,6 +50,15 @@ public class ProfileController {
     public String updateProfile(@ModelAttribute User updatedUser, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes) {
         User user = getCurrentUser(userDetails);
 
+        // Validasi kalo username diubah, pastikan engga dipakai user lain
+        if (!user.getUsername().equals(updatedUser.getUsername())) {
+            if (userRepository.findByUsername(updatedUser.getUsername()).isPresent()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Username sudah digunakan oleh akun lain!");
+                return "redirect:/profile/edit";
+            }
+        }
+        // Bisa update username : ditambah oleh Ronald Saut M.
+        user.setUsername(updatedUser.getUsername());
         user.setFullName(updatedUser.getFullName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
